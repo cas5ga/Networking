@@ -62,7 +62,7 @@ import time
 s = socket.socket()
 port = 61001
 s.bind(('', port))
-s.listen(5)
+s.listen(1)
 c, addr = s.accept()
 
 print('connection established')
