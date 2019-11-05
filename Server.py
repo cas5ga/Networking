@@ -24,6 +24,20 @@ def updateBoard(uBoard, column, turn):
             
     uBoard[saveRow][column] = turn
     
+    boardData = pickle.dumps(uBoard)
+    c.send(boardData)
+    c2.send(boardData)
+    
+    """
+    c.send(saveRow)
+    time.sleep(.25)
+    c.send(column)
+    
+    c2.send(saveRow)
+    time.sleep(.25)
+    c2.send(column)
+    """
+    
     # Prints the updated board
     print(' 0  1  2  3  4  5  6')
     for row in uBoard:
@@ -45,25 +59,33 @@ def playerOne(board):
 # Start playerTwo
 def playerTwo(board):
     turn = 2 # Need to tell server it's player two's turn
-    move = c.recv(1024)
+    move = c2.recv(1024)
     move = int(move)
     while board[0][move] is not 0:# Checks if a column is full 
-        c.send('error')
-        c.recv(1024)
-    c.send('no error')
+        c2.send('error')
+        c2.recv(1024)
+    c2.send('no error')
     updateBoard(board, move, turn)# Sends move to the baord to be updated
 
 #Main
 import socket
 import platform
 import time
+import pickle
 
 #establish a connection on port 61001
-s = socket.socket()
-port = 61001
-s.bind(('', port))
-s.listen(1)
-c, addr = s.accept()
+
+	s = socket.socket()
+	port = 61001
+	s.bind(('', port))
+	s.listen(1)
+	c, addr = s.accept()
+
+	s2 = socket.socket()
+	port = 61002
+	s2.bind(('',port))
+	s2.listen(1)
+	c2, addr2 = s2.accept()
 
 print('connection established')
 
@@ -83,8 +105,9 @@ while(not win):
 	if(num == 0):
 		c.send('player 1')
 		playerOne(myBoard) # Calls for player one's turn
-	elif(num == 1):
-		c.send('player 2')
-		playerTwo(myBoard) # Calls for player two's turn
 		
+	elif(num == 1):
+		c2.send('player 2')
+		playerTwo(myBoard) # Calls for player two's turn
+	
 	count += 1
