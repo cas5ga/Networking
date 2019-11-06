@@ -75,17 +75,17 @@ import pickle
 
 #establish a connection on port 61001
 
-	s = socket.socket()
-	port = 61001
-	s.bind(('', port))
-	s.listen(1)
-	c, addr = s.accept()
+s = socket.socket()
+port = 61001
+s.bind(('', port))
+s.listen(1)
+c, addr = s.accept()
 
-	s2 = socket.socket()
-	port = 61002
-	s2.bind(('',port))
-	s2.listen(1)
-	c2, addr2 = s2.accept()
+s2 = socket.socket()
+port = 61002
+s2.bind(('',port))
+s2.listen(1)
+c2, addr2 = s2.accept()
 
 print('connection established')
 

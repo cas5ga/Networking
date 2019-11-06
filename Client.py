@@ -54,19 +54,20 @@ import time
 import platform
 
 playerNumber = 0
+ip = '143.60.76.32'
 
 try:
 	s = socket.socket()
 	port = 61001
-	s.connect(('', port))
+	s.connect((ip,port))
 	playerNumber = 1
+	print ('connection established - player 1')
 except:
 	s2 = socket.socket()
 	port = 61002
-	s2.connect(('',port))
+	s2.connect((ip,port))
 	playerNumber = 2
-
-print('connection established')
+	print ('connection established - player 2')
 
 #board = createBoard()
 
