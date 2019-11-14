@@ -9,8 +9,8 @@ def playerOne():
 	message = s.recv(1024)
 	while message == 'error':# Checks if a column is full 
 		move = int(input('That column is full, please select a different column.\n'))
-		s.send(move)
-		s.recv(1024)
+		s.send(str(move))
+		message = s.recv(1024)
 # End playerOne
 
 # Start playerTwo
@@ -23,8 +23,8 @@ def playerTwo():
 	message = s.recv(1024)
 	while message == 'error':# Checks if a column is full 
 		move = int(input('That column is full, please select a different column.\n'))
-		s.send(move)
-		s.recv(1024)
+		s.send(str(move))
+		message = s.recv(1024)
 		
 # End playerTwo
 
