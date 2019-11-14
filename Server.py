@@ -155,11 +155,11 @@ while win is False:
 			winner = 'player 2'
 			
 	if win is True:
-		player1.send('T')
-		player2.send('T')
+		player1.send('True')
+		player2.send('True')
 	else:
-		player1.send('F')
-		player2.send('F')
+		player1.send('False')
+		player2.send('False')
 	
 	count += 1
 

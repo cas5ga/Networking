@@ -72,7 +72,7 @@ while win is False:
 			
 		winner = s.recv(1024)
 		
-		if(winner == 'T'):
+		if(winner == 'True'):
 			win = True
 			
 board = s.recv(4096)
