@@ -113,7 +113,7 @@ port = 61001
 s.bind(('', port))
 s.listen(2)
 player1, addr1 = s.accept()
-player1.send('player 1')
+player1.send('player 1'.encode())
 
 player2, addr2 = s.accept()
 player2.send('player 2')

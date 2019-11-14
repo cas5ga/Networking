@@ -39,9 +39,9 @@ playerNumber = 0
 
 s = socket.socket()
 port = 61001
-s.connect(('', port))
+s.connect(('143.60.76.32', port))
 
-player = s.recv(1024)
+player = s.recv(1024).decode()
 
 if(player == 'player 1'):
 	print('You are player 1')
