@@ -42,7 +42,8 @@ def playerOne(board, isWin):
 	move = int(move)
 	while board[0][move] is not 0:# Checks if a column is full 
 		player1.send('error')
-		player1.recv(1024)
+		move = player1.recv(1024)
+		move = int(move)
 	player1.send('no error')
 	isWin = updateBoard(board, move, turn, isWin)# Sends move to the baord to be updated
 		
@@ -53,11 +54,11 @@ def playerOne(board, isWin):
 def playerTwo(board, isWin):
     turn = 2 # Need to tell server it's player two's turn
     move = player2.recv(1024)
-    print("move for player 2")
     move = int(move)
     while board[0][move] is not 0:# Checks if a column is full 
         player2.send('error')
-        player2.recv(1024)
+        move = player2.recv(1024)
+        move = int(move)
     player2.send('no error')
     isWin = updateBoard(board, move, turn, isWin)# Sends move to the baord to be updated
 		
