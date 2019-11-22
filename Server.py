@@ -25,10 +25,10 @@ def updateBoard(uBoard, column, turn, win):
 	uBoard[saveRow][column] = turn
 
 	# Prints the updated board
-	print(' 0  1  2  3  4  5  6')
+	print(" 0  1  2  3  4  5  6")
 	for row in uBoard:
 		print(row)
-	print('')
+	print("")
 	
 	win = winCheck(uBoard, turn, win)
 	return win
@@ -38,13 +38,15 @@ def updateBoard(uBoard, column, turn, win):
 # Start playerOne
 def playerOne(board, isWin):
 	turn = 1 # Needed to tell board it's player one's move
-	move = player1.recv(1024)
+	move = player1recv()
 	move = int(move)
 	while board[0][move] is not 0:# Checks if a column is full 
-		player1.send('error')
-		move = player1.recv(1024)
+		message = "error#"
+		player1.send(message.encode())
+		move = player1recv()
 		move = int(move)
-	player1.send('no error')
+	message = "no error#"
+	player1.send(message.encode())
 	isWin = updateBoard(board, move, turn, isWin)# Sends move to the baord to be updated
 		
 	return isWin
@@ -52,17 +54,19 @@ def playerOne(board, isWin):
 
 # Start playerTwo
 def playerTwo(board, isWin):
-    turn = 2 # Need to tell server it's player two's turn
-    move = player2.recv(1024)
-    move = int(move)
-    while board[0][move] is not 0:# Checks if a column is full 
-        player2.send('error')
-        move = player2.recv(1024)
-        move = int(move)
-    player2.send('no error')
-    isWin = updateBoard(board, move, turn, isWin)# Sends move to the baord to be updated
-		
-    return isWin
+	turn = 2 # Need to tell server it's player two's turn
+	move = player2recv()
+	move = int(move)
+	while board[0][move] is not 0:# Checks if a column is full 
+		message = "error#"
+		player2.send(message.encode())
+		move = player2recv()
+		move = int(move)
+	message = "no error#"
+	player2.send(message.encode())
+	isWin = updateBoard(board, move, turn, isWin)# Sends move to the baord to be updated
+	
+	return isWin
     
 # Start winCheck
 def winCheck(myBoard, t, checkWin):
@@ -99,12 +103,36 @@ def winCheck(myBoard, t, checkWin):
                     break
                 
     return checkWin
+    
+def player1recv():
+	message = ""
+	found = False
+	while not found:
+		data = player1.recv(1).decode()
+		if(data != "#"):
+			message = message + data
+		else:
+			found = True
+			
+	return message
+	
+def player2recv():
+	message = ""
+	found = False
+	while not found:
+		data = player2.recv(1).decode()
+		if(data != "#"):
+			message = message + data
+		else:
+			found = True
+			
+	return message
 
 #Main
 import socket
 import platform
-import time
 import pickle
+import time
 
 #establish a connection on port 61001
 
@@ -113,15 +141,17 @@ port = 61001
 s.bind(('', port))
 s.listen(2)
 player1, addr1 = s.accept()
-player1.send('player 1')
+message = "player 1#"
+player1.send(message.encode())
 
 player2, addr2 = s.accept()
-player2.send('player 2')
+message = "player 2#"
+player2.send(message.encode())
 
 myBoard = createBoard()
 
 # Labels for columns
-print(' 0  1  2  3  4  5  6')
+print(" 0  1  2  3  4  5  6")
 
 # Prints the initial board
 for row in myBoard:
@@ -137,29 +167,36 @@ while win is False:
 	player1.send(gameBoard)
 	time.sleep(.1)
 	player2.send(gameBoard)
-	time.sleep(.1)
 	
 	num = count%2
 	if(num == 0):
-		player1.send("player one's turn")
-		player2.send("player one's turn")
+		message  = "player one's turn#"
+		player1.send(message.encode())
+		time.sleep(.1)
+		player2.send(message.encode())
 		win = playerOne(myBoard, win) # Calls for player one's turn
 		if win is True:
-			winner = 'player 1'
+			winner = "player 1"
 		
 	elif(num == 1):
-		player1.send("player two's turn")
-		player2.send("player two's turn")
+		message = "player two's turn#"
+		player1.send(message.encode())
+		time.sleep(.1)
+		player2.send(message.encode())
 		win = playerTwo(myBoard, win) # Calls for player two's turn
 		if win is True:
-			winner = 'player 2'
+			winner = "player 2"
 			
 	if win is True:
-		player1.send('True')
-		player2.send('True')
+		message = "True#"
+		player1.send(message.encode())
+		time.sleep(.1)
+		player2.send(message.encode())
 	else:
-		player1.send('False')
-		player2.send('False')
+		message = "False#"
+		player1.send(message.encode())
+		time.sleep(.1)
+		player2.send(message.encode())
 	
 	count += 1
 
@@ -168,11 +205,17 @@ gameBoard = pickle.dumps(myBoard)
 player1.send(gameBoard)
 time.sleep(.1)
 player2.send(gameBoard)
-time.sleep(.1)
 
-if(winner == 'player 1'):
-	player1.send('Congratulations!  You are the winner!')
-	player2.send('Sorry, but player 1 won the game.')
-elif(winner == 'player 2'):
-	player1.send('Sorry, but player 2 won the game.')
-	player2.send('Congratulations!  You are the winner!')
+if(winner == "player 1"):
+	message = "Congratulations!  You are the winner!#"
+	player1.send(message.encode())
+	time.sleep(.1)
+	message = "Sorry, but player 1 won the game.#"
+	player2.send(message.encode())
+	
+elif(winner == "player 2"):
+	message = "Sorry, but player 2 won the game.#"
+	player1.send(message.encode())
+	time.sleep(.1)
+	message = "Congratulations!  You are the winner!#"
+	player2.send(message.encode())
