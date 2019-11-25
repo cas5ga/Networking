@@ -11,3 +11,16 @@ https://github.com/pygame/pygame/tree/master/examples
 https://www.pygame.org/wiki/tutorials
 
 https://www.pygame.org/wiki/GettingStarted
+
+https://www.youtube.com/watch?v=i6xMBig-pP4&list=PLzMcBGfZo4-lp3jAExUCewBfMx3UZFkh5
+  where is the main loop?
+  need to draw new board outside of the loop
+    import pygame
+    pygame.init()
+    win = pygame.display.set_mode((500, 500))
+    pygame.display.set_caption("Connect Four")
+    
+  can just have a blue background and create the 42 squares, say of color grey
+  a piece is "dropped" into the game board by changing the top colors (one at a time) to 
+  turn into player color until collision with another placed piece.
+    
