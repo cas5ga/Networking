@@ -5,12 +5,14 @@ def playerOne():
 	move = int(input("Player one, please select a column to play in.\n"))
 	while move < 0 or move > 6:# Checks that user has selected an existing column
 		move = int(input("Column not allowed, please select an appropriate column.\n"))
-	move = str(move) + "#"
+	move = str(move)
+	move = updateMessage(move)
 	s.send(move.encode())
 	message = recvData()
 	while message == "error":# Checks if a column is full 
 		move = int(input("That column is full, please select a different column.\n"))
-		move = str(move) + "#"
+		move = str(move)
+		move = updateMessage(move)
 		s.send(move.encode())
 		message = recvData()
 # End playerOne
@@ -21,27 +23,58 @@ def playerTwo():
 	move = int(input("Player two, please select a column to play in.\n"))
 	while move < 0 or move > 6:# Checks that user has selected an existing column
 		move = int(input("Column not allowed, please select an appropriate column.\n"))
-	move = str(move) + "#"
+	move = str(move)
+	move = updateMessage(move)
 	s.send(move.encode())
 	message = recvData()
 	while message == "error":# Checks if a column is full 
 		move = int(input("That column is full, please select a different column.\n"))
-		move = str(move) + "#"
+		move = str(move)
+		move = updateMessage(move)
 		s.send(move.encode())
 		message = recvData()
 		
 # End playerTwo
 
 def recvData():
-	message = ""
+	dataSize = ""
 	found = False
 	while not found:
 		data = s.recv(1).decode()
 		if(data != "#"):
-			message = message + data
+			dataSize = dataSize + data
 		else:
 			found = True
 			
+	dataSize = int(dataSize)
+	
+	message = s.recv(dataSize).decode()
+			
+	return message
+	
+def recvBoard():
+	dataSize = ""
+	found = False
+	while not found:
+		data = s.recv(1).decode()
+		if(data != "#"):
+			dataSize = dataSize + data
+		else:
+			found = True
+			
+	dataSize = int(dataSize)
+	
+	board = s.recv(dataSize)
+	board = pickle.loads(board)
+	
+	return board
+	
+	
+def updateMessage(message):
+	encodedMsg = message.encode()
+	dataSize = sys.getsizeof(encodedMsg)
+	dataSize = str(dataSize)
+	message = dataSize + "#" + message
 	return message
 	
 # Main
@@ -49,6 +82,7 @@ def recvData():
 import socket
 import platform
 import pickle
+import sys
 
 playerNumber = 0
 
@@ -67,8 +101,7 @@ elif(player == "player 2"):
 
 win = False
 while win is False:
-	board = s.recv(1024)
-	board = pickle.loads(board)
+	board = recvBoard()
 
 	print(" 0  1  2  3  4  5  6")
 	for row in board:
@@ -91,8 +124,7 @@ while win is False:
 	if(winner == "True"):
 		win = True
 			
-board = s.recv(1024)
-board = pickle.loads(board)	
+board = recvBoard()
 
 print(" 0  1  2  3  4  5  6")
 for row in board:

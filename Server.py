@@ -41,11 +41,13 @@ def playerOne(board, isWin):
 	move = player1recv()
 	move = int(move)
 	while board[0][move] is not 0:# Checks if a column is full 
-		message = "error#"
+		message = "error"
+		message = updateMessage(message)
 		player1.send(message.encode())
 		move = player1recv()
 		move = int(move)
-	message = "no error#"
+	message = "no error"
+	message = updateMessage(message)
 	player1.send(message.encode())
 	isWin = updateBoard(board, move, turn, isWin)# Sends move to the baord to be updated
 		
@@ -58,11 +60,13 @@ def playerTwo(board, isWin):
 	move = player2recv()
 	move = int(move)
 	while board[0][move] is not 0:# Checks if a column is full 
-		message = "error#"
+		message = "error"
+		message = updateMessage(message)
 		player2.send(message.encode())
 		move = player2recv()
 		move = int(move)
-	message = "no error#"
+	message = "no error"
+	message = updateMessage(message)
 	player2.send(message.encode())
 	isWin = updateBoard(board, move, turn, isWin)# Sends move to the baord to be updated
 	
@@ -105,27 +109,42 @@ def winCheck(myBoard, t, checkWin):
     return checkWin
     
 def player1recv():
-	message = ""
+	dataSize = ""
 	found = False
 	while not found:
 		data = player1.recv(1).decode()
 		if(data != "#"):
-			message = message + data
+			dataSize = dataSize + data
 		else:
 			found = True
+			
+	dataSize = int(dataSize)
+	
+	message = player1.recv(dataSize)
 			
 	return message
 	
 def player2recv():
-	message = ""
+	dataSize = ""
 	found = False
 	while not found:
 		data = player2.recv(1).decode()
 		if(data != "#"):
-			message = message + data
+			dataSize = dataSize + data
 		else:
 			found = True
 			
+	dataSize = int(dataSize)
+	
+	message = player2.recv(dataSize)
+			
+	return message
+	
+def updateMessage(message):
+	encodedMsg = message.encode()
+	dataSize = sys.getsizeof(encodedMsg)
+	dataSize = str(dataSize)
+	message = dataSize + "#" + message
 	return message
 
 #Main
@@ -133,19 +152,22 @@ import socket
 import platform
 import pickle
 import time
+import sys
 
-#establish a connection on port 61001
+#establish two connections on port 61001
 
 s = socket.socket()
 port = 61001
 s.bind(('', port))
 s.listen(2)
 player1, addr1 = s.accept()
-message = "player 1#"
+message = "player 1"
+message = updateMessage(message)
 player1.send(message.encode())
 
 player2, addr2 = s.accept()
-message = "player 2#"
+message = "player 2"
+message = updateMessage(message)
 player2.send(message.encode())
 
 myBoard = createBoard()
@@ -164,13 +186,19 @@ winner = ''
 while win is False:
 	
 	gameBoard = pickle.dumps(myBoard)
+	dataSize = sys.getsizeof(gameBoard)
+	dataSize = str(dataSize) + "#"
+	
+	player1.send(dataSize.encode())
 	player1.send(gameBoard)
 	time.sleep(.1)
+	player2.send(dataSize.encode())
 	player2.send(gameBoard)
 	
 	num = count%2
 	if(num == 0):
-		message  = "player one's turn#"
+		message  = "player one's turn"
+		message = updateMessage(message)
 		player1.send(message.encode())
 		time.sleep(.1)
 		player2.send(message.encode())
@@ -179,7 +207,8 @@ while win is False:
 			winner = "player 1"
 		
 	elif(num == 1):
-		message = "player two's turn#"
+		message = "player two's turn"
+		message = updateMessage(message)
 		player1.send(message.encode())
 		time.sleep(.1)
 		player2.send(message.encode())
@@ -188,12 +217,14 @@ while win is False:
 			winner = "player 2"
 			
 	if win is True:
-		message = "True#"
+		message = "True"
+		message = updateMessage(message)
 		player1.send(message.encode())
 		time.sleep(.1)
 		player2.send(message.encode())
 	else:
-		message = "False#"
+		message = "False"
+		message = updateMessage(message)
 		player1.send(message.encode())
 		time.sleep(.1)
 		player2.send(message.encode())
@@ -202,20 +233,30 @@ while win is False:
 
 
 gameBoard = pickle.dumps(myBoard)
+dataSize = sys.getsizeof(gameBoard)
+dataSize = str(dataSize) + "#"
+
+
+player1.send(dataSize.encode())
 player1.send(gameBoard)
 time.sleep(.1)
+player2.send(dataSize.encode())
 player2.send(gameBoard)
 
 if(winner == "player 1"):
-	message = "Congratulations!  You are the winner!#"
+	message = "Congratulations!  You are the winner!"
+	message = updateMessage(message)
 	player1.send(message.encode())
 	time.sleep(.1)
-	message = "Sorry, but player 1 won the game.#"
+	message = "Sorry, but player 1 won the game."
+	message = updateMessage(message)
 	player2.send(message.encode())
 	
 elif(winner == "player 2"):
-	message = "Sorry, but player 2 won the game.#"
+	message = "Sorry, but player 2 won the game."
+	message = updateMessage(message)
 	player1.send(message.encode())
 	time.sleep(.1)
-	message = "Congratulations!  You are the winner!#"
+	message = "Congratulations!  You are the winner!"
+	message = updateMessage(message)
 	player2.send(message.encode())
