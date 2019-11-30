@@ -10,6 +10,15 @@ def createBoard():
     return board
 # End createBoard
 
+#start billy pygame stuff 1
+
+import pygame
+pygame.init()
+win = pygame.display.set_mode((500, 500))
+pygame.display.set_caption("Connect Four")  
+
+#end billy pygame stuff 1
+
 # Start winCheck
 def winCheck(myBoard, t, checkWin):
     # Checks for vertical win
@@ -108,6 +117,29 @@ def playerTwo(board, isWin):
 # Function call to get the baord
 myBoard = createBoard()
 
+#start billy pygame stuff 2
+
+#values of constants
+x = 50
+y = 50
+radius = 60
+vel = 5
+
+run = true
+while run:
+    pygame.time.delay(100)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: #window should close once user presses red X at top
+            run = False
+        pygame.draw.circle(win, (255, 0, 0) (x, y, radius) ) #draw a red circle in the window at 
+        pygame.display.update()
+            
+pygame.quit
+
+
+
+#end billy pygame stuff 2
+
 win = False
 # Labels for columns
 print(' 0  1  2  3  4  5  6')
@@ -121,3 +153,4 @@ while win is False:
     win = playerOne(myBoard, win) # Calls for player one's turn
     if win is False: 
         win = playerTwo(myBoard, win) # Calls for player two's turn
+
