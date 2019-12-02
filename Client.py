@@ -72,7 +72,7 @@ def recvBoard():
 	
 def updateMessage(message):
 	encodedMsg = message.encode()
-	dataSize = sys.getsizeof(encodedMsg)
+	dataSize = len(encodedMsg)
 	dataSize = str(dataSize)
 	message = dataSize + "#" + message
 	return message
@@ -82,7 +82,6 @@ def updateMessage(message):
 import socket
 import platform
 import pickle
-import sys
 
 playerNumber = 0
 
