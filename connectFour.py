@@ -124,6 +124,7 @@ x = 50
 y = 50
 radius = 60
 vel = 5
+locationspace = 1
 
 run = true
 while run:
@@ -131,7 +132,8 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: #window should close once user presses red X at top
             run = False
-        pygame.draw.circle(win, (255, 0, 0) (x, y, radius) ) #draw a red circle in the window at 
+        pygame.draw.circle(win, (128, 128, 128) (locationspace * x, locationspace * y, radius) ) #draw a gray circle in the window at 
+        locationspace = location space + 1
         pygame.display.update()
             
 pygame.quit
