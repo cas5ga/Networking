@@ -14,7 +14,7 @@ def createBoard():
 
 import pygame
 pygame.init()
-win = pygame.display.set_mode((500, 500))
+win = pygame.display.set_mode((4200, 4200))
 pygame.display.set_caption("Connect Four")  
 
 #end billy pygame stuff 1
