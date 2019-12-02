@@ -15,7 +15,9 @@ def createBoard():
 import pygame
 pygame.init()
 win = pygame.display.set_mode((4200, 4200))
-pygame.display.set_caption("Connect Four")  
+pygame.display.set_caption("Connect Four")
+blue = (0,0,255)
+screen.fill.(blue)
 
 #end billy pygame stuff 1
 
@@ -122,9 +124,8 @@ myBoard = createBoard()
 #values of constants
 x = 50
 y = 50
-radius = 60
+radius = 20
 vel = 5
-locationspace = 1
 
 run = true
 while run:
@@ -136,14 +137,11 @@ while run:
     while running <= 7
         sprinting = 1
         while sprinting <= 6
-            pygame.draw.circle(win, (128, 128, 128) (running * x, sprinting  * y, radius) ) #draw a gray circle in the window at 
+            pygame.draw.circle(win, (128, 128, 128) (sprinting * x, running * y, radius) ) #draw a gray circle in the window at 
             sprinting = sprinting + 1
         running = running + 1
     pygame.display.update()
-            
-pygame.quit
-
-
+ 
 #end billy pygame stuff 2
 
 win = False
