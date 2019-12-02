@@ -1,6 +1,6 @@
 # Start createBoard
 def createBoard():
-    # Creates th initial board which is a matrix of 0's
+    # Creates the initial board which is a matrix of 0's
     board = [[0,0,0,0,0,0,0],
              [0,0,0,0,0,0,0],
              [0,0,0,0,0,0,0],
@@ -132,12 +132,16 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: #window should close once user presses red X at top
             run = False
-        pygame.draw.circle(win, (128, 128, 128) (locationspace * x, locationspace * y, radius) ) #draw a gray circle in the window at 
-        locationspace = location space + 1
-        pygame.display.update()
+    running = 1
+    while running <= 7
+        sprinting = 1
+        while sprinting <= 6
+            pygame.draw.circle(win, (128, 128, 128) (running * x, sprinting  * y, radius) ) #draw a gray circle in the window at 
+            sprinting = sprinting + 1
+        running = running + 1
+    pygame.display.update()
             
 pygame.quit
-
 
 
 #end billy pygame stuff 2
