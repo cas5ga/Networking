@@ -88,7 +88,7 @@ playerNumber = 0
 s = socket.socket()
 port = 61001
 ip = "143.60.76.32"
-s.connect(('', port))
+s.connect((ip, port))
 
 player = recvData()
 
