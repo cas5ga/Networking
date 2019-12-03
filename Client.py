@@ -97,8 +97,10 @@ if(player == "player 1"):
 	print("Waiting on player 2 to connect\n")
 elif(player == "player 2"):
 	print("You are player 2\n")
+	
 
 win = False
+tie = 0
 while win is False:
 	board = recvBoard()
 
@@ -108,7 +110,7 @@ while win is False:
 	print("")
 
 	turn = recvData()
-
+	tie += 1
 	if(player == "player 1" and turn == "player one's turn"):
 		playerOne()
 	elif(player == "player 2" and turn == "player two's turn"):
@@ -122,15 +124,19 @@ while win is False:
 	
 	if(winner == "True"):
 		win = True
-			
+	
+	if(tie == 42):	
+		break
+		
 board = recvBoard()
 
 print(" 0  1  2  3  4  5  6")
 for row in board:
 	print(row)
 print("")	
-
-message = recvData()
-print(message)
-
+if(tie != 42):
+	message = recvData()
+	print(message)
+else:
+	print("Tie")
 print("Game Over")

@@ -180,8 +180,11 @@ print('')
 
 win = False
 count = 0
+tie = 0
 winner = ''
 while win is False:
+
+	tie += 1
 	
 	gameBoard = pickle.dumps(myBoard)
 	dataSize = len(gameBoard)
@@ -223,6 +226,9 @@ while win is False:
 		player2.send(message.encode())
 	
 	count += 1
+	
+	if(tie == 42):
+		break
 
 
 gameBoard = pickle.dumps(myBoard)
