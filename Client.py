@@ -119,7 +119,7 @@ s = socket.socket()
 port = 61001
 #ip address for the medusa server at The University of Virginia's College at Wise
 ip = "143.60.76.32"
-s.connect(('', port))
+s.connect((ip, port))
 
 #receives which player this client is
 player = recvData()
