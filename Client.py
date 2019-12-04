@@ -117,7 +117,7 @@ playerNumber = 0
 #creates a socket and connects to listed ip address on the listed port
 s = socket.socket()
 port = 61001
-#ip address for the medusa server at The University of Virginia's College at Wise
+#ip address where the server will be running
 ip = "143.60.76.32"
 s.connect((ip, port))
 
