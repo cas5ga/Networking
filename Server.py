@@ -1,6 +1,6 @@
 # Start createBoard
 def createBoard():
-    # Creates th initial board which is a matrix of 0's
+    # Creates the initial board which is a matrix of 0's
     board = [[0,0,0,0,0,0,0],
              [0,0,0,0,0,0,0],
              [0,0,0,0,0,0,0],
@@ -12,7 +12,7 @@ def createBoard():
 
 # Start updateBoard
 def updateBoard(uBoard, column, turn, win):
-	# Takes the user's move and updates the board
+	# Takes the user's move and updates the board with the new move location
 	saveRow = 0
 	for row in range(6):
 		if uBoard[row][column] is not 0:
@@ -24,7 +24,7 @@ def updateBoard(uBoard, column, turn, win):
             
 	uBoard[saveRow][column] = turn
 
-	# Prints the updated board
+	# Prints the updated board and labels
 	print(" 0  1  2  3  4  5  6")
 	for row in uBoard:
 		print(row)
