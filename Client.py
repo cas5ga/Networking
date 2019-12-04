@@ -58,7 +58,7 @@ def playerTwo():
 
 #receives data from the server
 def recvData():
-	#The message contains the length of the message followed by a '#'
+	#The message contains the number of bytes in the message followed by a '#'
 	#The actual message follows the '#'
 	dataSize = ""
 	#loops reading only one byte until the '#' is found
@@ -79,7 +79,7 @@ def recvData():
 
 #receives the board from the server
 def recvBoard():
-	#The message contains the length of the message followed by a '#'
+	#The message contains the number of bytes in the message followed by a '#'
 	#The actual message follows the '#'
 	dataSize = ""
 	#loops reading only one byte until the '#' is found
@@ -163,7 +163,7 @@ while win is False:
 		win = True
 	
 	#increments the tie variable by one each loop to determine if there is a tie
-	#once it reaches 42, there are no more moves
+	#once it reaches 42, the maximum number of possible moves, there are no more available spaces
 	tie += 1
 	if(tie == 42):	
 		break
@@ -178,7 +178,7 @@ for row in board:
 	print(row)
 print("")	
 
-#if the game was not a tie, receive the winner or looser message
+#if the game was not a tie, receive the winner or loser message
 if(tie != 42):
 	message = recvData()
 	print(message)
